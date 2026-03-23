@@ -1,8 +1,8 @@
 (() => {
   let animationId = null;
 
-  window.initBounceSimulation = function (totalCircles = 8) {
-    const canvas = document.getElementById("canvasBounce");
+  window.initMoveSimulation = function (totalCircles = 8) {
+    const canvas = document.getElementById("canvasMove");
     const ctx = canvas.getContext("2d");
 
     if (animationId) {
@@ -17,13 +17,11 @@
     const height = canvas.height;
 
     class Circle {
-      constructor(x, y, radius, color, collisionColor, text, speed) {
+      constructor(x, y, radius, color, text, speed) {
         this.posX = x;
         this.posY = y;
         this.radius = radius;
-        this.baseColor = color;
-        this.collisionColor = collisionColor;
-        this.currentColor = color;
+        this.color = color;
         this.text = text;
         this.speed = speed;
         this.dx = (Math.random() < 0.5 ? -1 : 1) * this.speed;
@@ -32,7 +30,7 @@
 
       draw(context) {
         context.beginPath();
-        context.fillStyle = this.currentColor;
+        context.fillStyle = this.color;
         context.arc(this.posX, this.posY, this.radius, 0, Math.PI * 2);
         context.fill();
         context.closePath();
@@ -46,7 +44,7 @@
         context.closePath();
       }
 
-      move() {
+      update(context) {
         if (this.posX + this.radius >= width || this.posX - this.radius <= 0) {
           this.dx = -this.dx;
         }
@@ -57,17 +55,13 @@
 
         this.posX += this.dx;
         this.posY += this.dy;
+
+        this.draw(context);
       }
     }
 
     function random(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function distance(c1, c2) {
-      const dx = c2.posX - c1.posX;
-      const dy = c2.posY - c1.posY;
-      return Math.sqrt(dx * dx + dy * dy);
     }
 
     const circles = [];
@@ -78,67 +72,14 @@
       const y = random(radius, height - radius);
       const speed = random(2, 4);
 
-      circles.push(
-        new Circle(x, y, radius, "#7c3aed", "#f97316", String(i + 1), speed)
-      );
-    }
-
-    function resolveCollisions() {
-      for (let i = 0; i < circles.length; i++) {
-        circles[i].currentColor = circles[i].baseColor;
-      }
-
-      for (let i = 0; i < circles.length; i++) {
-        for (let j = i + 1; j < circles.length; j++) {
-          const c1 = circles[i];
-          const c2 = circles[j];
-          const dist = distance(c1, c2);
-          const minDist = c1.radius + c2.radius;
-
-          if (dist <= minDist) {
-            c1.currentColor = c1.collisionColor;
-            c2.currentColor = c2.collisionColor;
-
-            const tempDx = c1.dx;
-            const tempDy = c1.dy;
-
-            c1.dx = c2.dx;
-            c1.dy = c2.dy;
-
-            c2.dx = tempDx;
-            c2.dy = tempDy;
-
-            const overlap = minDist - dist;
-
-            let nx = 1;
-            let ny = 0;
-
-            if (dist !== 0) {
-              nx = (c2.posX - c1.posX) / dist;
-              ny = (c2.posY - c1.posY) / dist;
-            }
-
-            c1.posX -= nx * (overlap / 2);
-            c1.posY -= ny * (overlap / 2);
-
-            c2.posX += nx * (overlap / 2);
-            c2.posY += ny * (overlap / 2);
-          }
-        }
-      }
+      circles.push(new Circle(x, y, radius, "#2563eb", String(i + 1), speed));
     }
 
     function animate() {
       ctx.clearRect(0, 0, width, height);
 
       for (let i = 0; i < circles.length; i++) {
-        circles[i].move();
-      }
-
-      resolveCollisions();
-
-      for (let i = 0; i < circles.length; i++) {
-        circles[i].draw(ctx);
+        circles[i].update(ctx);
       }
 
       animationId = requestAnimationFrame(animate);

@@ -1,0 +1,116 @@
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(0, 255, 200, 0.15), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(0, 132, 255, 0.18), transparent 30%),
+    linear-gradient(135deg, #0f172a, #111827, #1e293b);
+  color: #ffffff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.custom-navbar {
+  background: linear-gradient(90deg, #0f766e, #0ea5e9);
+  backdrop-filter: blur(8px);
+}
+
+.control-panel {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 22px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.main-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0;
+}
+
+.range-value-box {
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+  padding: 14px 18px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.range-label {
+  display: block;
+  font-size: 0.95rem;
+  color: #dbeafe;
+}
+
+.range-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #67e8f9;
+}
+
+.sim-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sim-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.28);
+}
+
+.sim-card-header {
+  margin-bottom: 14px;
+}
+
+.sim-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.sim-text {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.canvas-wrapper {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+canvas {
+  width: 100%;
+  height: 320px;
+  display: block;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fef9c3, #fde68a);
+}
+
+.custom-footer {
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+}
+
+.form-range::-webkit-slider-thumb {
+  background: #22d3ee;
+}
+
+.form-range::-moz-range-thumb {
+  background: #22d3ee;
+  border: none;
+}
+
+@media (max-width: 991px) {
+  canvas {
+    height: 280px;
+  }
+}
