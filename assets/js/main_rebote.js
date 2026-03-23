@@ -31,12 +31,41 @@
       }
 
       draw(context) {
+        context.save();
+
+        // Crear gradiente tipo glass
+        const gradient = context.createRadialGradient(
+          this.posX - this.radius * 0.3,
+          this.posY - this.radius * 0.3,
+          this.radius * 0.2,
+          this.posX,
+          this.posY,
+          this.radius,
+        );
+
+        gradient.addColorStop(0, "rgba(255, 255, 255, 0.6)");
+        gradient.addColorStop(1, this.currentColor || this.color);
+
+        // Círculo principal (vidrio)
         context.beginPath();
-        context.fillStyle = this.currentColor;
+        context.fillStyle = gradient;
         context.arc(this.posX, this.posY, this.radius, 0, Math.PI * 2);
+        context.fill();
+
+        // Borde glass
+        context.strokeStyle = "rgba(255,255,255,0.4)";
+        context.lineWidth = 2;
+        context.stroke();
+        context.closePath();
+
+        // Efecto brillo
+        context.beginPath();
+        context.arc(this.posX - this.radius * 0.3, this.posY - this.radius * 0.3, this.radius * 0.25, 0, Math.PI * 2);
+        context.fillStyle = "rgba(255,255,255,0.25)";
         context.fill();
         context.closePath();
 
+        // Texto
         context.beginPath();
         context.fillStyle = "#ffffff";
         context.font = "bold 16px Arial";
@@ -44,6 +73,8 @@
         context.textBaseline = "middle";
         context.fillText(this.text, this.posX, this.posY);
         context.closePath();
+
+        context.restore();
       }
 
       move() {
@@ -78,9 +109,7 @@
       const y = random(radius, height - radius);
       const speed = random(2, 4);
 
-      circles.push(
-        new Circle(x, y, radius, "#7c3aed", "#f97316", String(i + 1), speed)
-      );
+      circles.push(new Circle(x, y, radius, "#7c3aed", "#f97316", String(i + 1), speed));
     }
 
     function resolveCollisions() {
